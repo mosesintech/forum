@@ -23,7 +23,7 @@ table {
         td {
           padding: 1% ;
           margin: auto;
-          border: 1px solid rgba(211, 211, 211, 1);
+          border: 1px solid $tbc;
           p {
               font-size: 0.8rem;
           }
@@ -31,6 +31,11 @@ table {
       }
       .tcat {
         background-color: $tcr;
+      }
+      .tkind {
+        background-color: $tkr;
+        font-size: .8rem;
+        font-weight: bolder;
       }
       .trow {
         background-color: $tre;
@@ -40,3 +45,22 @@ table {
     } 
     }
   }
+
+.board-name, .post {
+  width: 60%;
+  font-size: 1.2rem;
+}
+
+.num, .cat-page {
+  text-align: center;
+}
+
+.latest-thread {
+  text-align: right;
+}
+
+.subforum {
+  font-weight: bolder;
+  font-size: .9rem;
+  margin-top: 1%;
+}
