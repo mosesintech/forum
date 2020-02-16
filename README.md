@@ -6,9 +6,21 @@ I decided to start with Create React App to give me a quick start to putting it 
 # todo
 [-] Design
   [X] Forum List View
-    [-] Thread List View
-      [-] Add New Thread/Edit Thread
-      [-] Thread View with Posts
+    [X] Thread List View
+      [-] Add New Thread/Edit Thread Form
+      [-] Thread View with Posts & Add Reply Form
   [-] User Profile View
+    [-] User Thread List View
+    [-] User Post List View
+    [-] User Reputation View
   [-] User Control Panel View
+    [-] Edit User Profile Form View
   [-] Administrative Dashboard View
+    [-] User List View
+      [-] Add New User Form
+    [-] Categories & Forums View
+      [-] Add New Category or Forum Form
+  [-] Register Form
+  [-] Login Form
+[-] Logic
+[-] Database
