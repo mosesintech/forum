@@ -1,0 +1,55 @@
+.form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 3%;
+    .reply {
+        font-size: 1.4rem;
+        display: block;
+        text-align: center;
+        width: 98%;
+        border-radius: 20px 20px 0 0;
+        padding: 1%;
+        background-color: $cbc;
+        margin-bottom: 0;
+    }
+    textarea {
+        margin-top: 0;
+        width: 50vw;
+        height: 20vh;
+        display: block;
+        font-size: 1.1rem;
+        border: 1px solid $cbc;
+    }
+    .buttons {
+        display: flex;
+        justify-content: space-evenly;
+        margin: 3%;
+    }
+    button {
+        font-size: .8rem;
+        border: 1px solid $cbc;
+        border-radius: 30px;
+        padding: 3%;
+        text-transform: uppercase;
+        text-align: center;
+        width: 18%;
+        background: none;
+    }
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 15%;
+    }
+    .userinfoform {
+        label {
+            display: block;
+            input {
+                width: 100%;
+                margin: 5% 0;
+                font-size: 1rem;
+                border: 1px solid $cbc;
+            }
+        }
+    }
+}
+

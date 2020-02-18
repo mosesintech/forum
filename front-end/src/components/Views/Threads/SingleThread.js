@@ -4,6 +4,7 @@ import PreSingleThread from '../Misc/PreSingleThread';
 import SingleThreadPosts from './SingleThreadPosts';
 import ThreadUserInfo from './ThreadUserInfo';
 import PostInfo from './PostInfo';
+import AddPost from '../../UserActions/Posts/AddPost';
 
 function SingleThread() {
     return (
@@ -53,6 +54,7 @@ function SingleThread() {
                 </table>
             </section>
             <PreSingleThread />
+            <AddPost />
         </div>
     );
 }
