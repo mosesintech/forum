@@ -69,4 +69,4 @@
 
 ## Database Model
 
-![alt text](./images/database/database-refactored.jpeg "Database Model")
+![alt text](../images/database/database-refactored.jpeg "Database Model")
