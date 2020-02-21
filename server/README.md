@@ -13,6 +13,8 @@
 | PUT    | /api/categories/:id | Updates the category with the specified `id`. Returns the modified document. |
 | DELETE | /api/categories/:id | Removes the category with the specified `id` and returns the deleted category.                                                            |
 
+POST, PUT, and DELETE are exclusively Administrator actions.
+
 ### Forums
 
 | Method | URL            | Description                                                                                                                       |
@@ -24,6 +26,8 @@
 | GET    | /api/forums/:id/posts | Returns an array of all the posts in the forum object with the specified `id`.                                                                                  |
 | PUT    | /api/forums/:id | Updates the forum with the specified `id`. Returns the modified document. |
 | DELETE | /api/forums/:id | Removes the forum with the specified `id` and returns the deleted forum.                                                            |
+
+POST, PUT, and DELETE are exclusively Administrator actions.
 
 ### Messages
 
@@ -40,7 +44,9 @@
 | ------ | -------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | POST   | /api/reputation     | Creates a reputation.                                                              |
 | GET    | /api/reputation/:id | Returns the reputation object with the specified `id`.                                                                                  |
-| DELETE | /api/reputation/:id | Removes the reputation with the specified `id` and returns the deleted reputation. To be used by Admin & Mod users.                                                            |
+| DELETE | /api/reputation/:id | Removes the reputation with the specified `id` and returns the deleted reputation.                                                            |
+
+DELETE is an Administrator and Moderator action.
 
 ### Threads
 
@@ -66,6 +72,8 @@
 | GET    | /api/users/:id/reputation | Returns an array of all the reputation in the user object with the specified `id`.                                                                                  |
 | PUT    | /api/users/:id | Updates the user with the specified `id`. Returns the modified document. |
 | DELETE | /api/users/:id | Removes the user with the specified `id` and returns the deleted user.                                                            |
+
+DELETE is exclusively an Administrator action.
 
 ## Database Model
 
