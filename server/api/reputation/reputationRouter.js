@@ -6,26 +6,22 @@ const router = express();
 
 // Create - POST
 
-// To create a new message.
+// To create a new reputation.
 router.post('/', (req, res) => {
 
 });
 
 // Retrieve - GET
 
-// To retrieve a list of all messages.
-router.get('/', (req, res) => {
-
-});
-
-// To retrieve a single message by the Message ID.
+// To retrieve a single reputation comment by the Reputation ID.
 router.get('/:id', (req, res) => {
 
 });
 
 // Delete - DELETE
 
-// To delete a single message
+// To delete a single reputation
+// Admin & Mod action only
 router.delete('/:id', (req, res) => {
 
 });
