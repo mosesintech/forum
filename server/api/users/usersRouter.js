@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Users = require('../../data/dbConfig.js');
 
 // CRUD operations:
 
@@ -15,7 +16,13 @@ router.post('/', (req, res) => {
 
 // To retrieve a list of all users & filter through them using sortby, sortdir, and limit.
 router.get('/', (req, res) => {
-
+    Users('users')
+        .then(users => {
+            res.status(200).json(users);
+        })
+        .catch(error => {
+            res.status(500).json({message: `Error retrieving all users: ${error}`});
+        })
 });
 
 // To retrieve a single user by the User ID.

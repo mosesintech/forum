@@ -23,4 +23,4 @@ After designing the pages you'll see below, I took a break to study database mod
 ![alt text](./images/actions/login-form.jpeg "User Login Form")
 
 ### Database:
-![alt text](./images/database/database-refactored.png "Database Model")
+![alt text](./images/database/database-model.png "Database Model")

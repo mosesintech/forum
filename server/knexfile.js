@@ -7,7 +7,7 @@ module.exports = {
       // owner: 'maxcosme',
       // password: 'admin21'
     },
-    migration: {
+    migrations: {
       directory: "./data/migrations"
     },
     seeds: {
