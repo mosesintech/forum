@@ -4,8 +4,6 @@ module.exports = {
     connection: {
       host: 'localhost',
       database: 'forum',
-      // owner: 'maxcosme',
-      // password: 'admin21'
     },
     migrations: {
       directory: "./data/migrations"
