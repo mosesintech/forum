@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "heroku-postbuild": "npm install --prefix client --only=dev && npm install --prefix client && npm run build"
   },
   "author": "Moses Maximino Cosme II",
   "license": "ISC",
@@ -15,7 +16,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.21.2",
-    "knex": "^0.20.10"
+    "knex": "^0.20.10",
+    "pg": "^7.18.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
