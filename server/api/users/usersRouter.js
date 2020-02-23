@@ -1,5 +1,6 @@
 const express = require('express');
 const Users = require('./usersModel.js');
+const { validateUserId } = require('./usersMiddleware.js');
 const router = express.Router();
 
 // CRUD operations:
@@ -16,18 +17,18 @@ router.post('/', (req, res) => {
 
 // To retrieve a list of all users & filter through them using sortby, sortdir, and limit.
 router.get('/', (req, res) => {
-    // Users('users')
-    //     .then(users => {
-    //         res.status(200).json(users);
-    //     })
-    //     .catch(error => {
-    //         res.status(500).json({message: `Error retrieving all users: ${error}`});
-    //     })
+    Users.find()
+        .then(users => {
+            res.status(200).json(users);
+        })
+        .catch(error => {
+            res.status(500).json({message: `Error retrieving all users: ${error}`});
+        })
 });
 
 // To retrieve a single user by the User ID.
-router.get('/:id', (req, res) => {
-
+router.get('/:id', validateUserId, (req, res) => {
+    res.status(200).json(req.user);
 });
 
 // To retrieve all threads posted by this user using User ID.

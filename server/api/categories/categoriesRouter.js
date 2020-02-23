@@ -1,4 +1,6 @@
 const express = require('express');
+const Categories = require('./categoriesModel.js');
+const { validateCategoryId } = require('./categoriesMiddleware.js');
 const router = express.Router();
 
 // CRUD operations:
@@ -15,12 +17,18 @@ router.post('/', (req, res) => {
 
 // To retrieve a list of all categories.
 router.get('/', (req, res) => {
-
+    Categories.find()
+        .then(cats => {
+            res.status(200).json(cats);
+        })
+        .catch(error => {
+            res.status(500).json({message: `Error retrieving all categories: ${error}`});
+        })
 });
 
 // To retrieve a single category by the Category ID.
-router.get('/:id', (req, res) => {
-
+router.get('/:id', validateCategoryId, (req, res) => {
+    res.status(200).json(req.cat);
 });
 
 // To retrieve all forums in this category using Category ID.
