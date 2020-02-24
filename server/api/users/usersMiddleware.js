@@ -4,7 +4,8 @@ const Users = require('./usersModel.js');
 // Validate User ID - checks if ID is in the database or not.
 
 module.exports = {
-    validateUserId
+    validateUserId,
+    validateUser
 }
 
 function validateUserId(req, res, next) {
@@ -24,3 +25,15 @@ function validateUserId(req, res, next) {
 }
 
 // Validate User - checks if req contains all required values for post/put.
+
+function validateUser(req, res, next) {
+    const { is_admin, is_mod, is_banned, username, avatar, user_title, email, password } = req.body;
+
+    if(!req.body){
+        res.status(400).json({message: `Missing user information`});
+    } else if(!is_admin || !is_mod || !is_banned | !username || !avatar || !user_title || !email || !password){
+        res.status(400).json({message: `Please include user information: Username, Avatar, User Title, Email, Password, Administrator Status, Moderator Status, and Banned Status.`})
+    } else {
+        next();
+    }
+}

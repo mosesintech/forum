@@ -1,6 +1,6 @@
 const express = require('express');
 const Users = require('./usersModel.js');
-const { validateUserId } = require('./usersMiddleware.js');
+const { validateUserId, validateUser } = require('./usersMiddleware.js');
 const router = express.Router();
 
 // CRUD operations:
@@ -9,8 +9,14 @@ const router = express.Router();
 // Create - POST
 
 // To create a new user.
-router.post('/', (req, res) => {
-
+router.post('/', validateUser, (req, res) => {
+    Users.insert(req.body)
+        .then(newUser => {
+            res.status(201).json(newUser);
+        })
+        .catch(error => {
+            res.status(500).json({message: `Error adding new user: ${error}`});
+        })
 });
 
 // Retrieve - GET

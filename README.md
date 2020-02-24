@@ -6,6 +6,8 @@ I decided to start with Create React App to give me a quick start to putting it 
 
 After designing the pages you'll see below, I took a break to study database modeling, and to search for some extra tools to help me complete my project: http://DBdesigner.net and http://KanbanFlow.com. Then, I set up my back-end boilerplate and began working on the database and API.
 
+
+
 ## Progress
 
 ### List Displays:
