@@ -85,6 +85,14 @@ POST, PUT, and DELETE are exclusively Administrator actions.
 
 DELETE is an Administrator and Moderator action.
 
+### Authentication
+
+| Method | URL                              | Description                        |
+| ------ | -------------------------------- | ---------------------------------- |
+| POST   | /api/authentication/register     | Creates a user.                    |
+| POST   | /api/reputation/login            | Creates an authenticated session.  |
+| GET    | /api/reputation/logout           | Destroys an authenticated session. |
+
 ## Database Model
 
 ![alt text](../images/database/database-model.png "Database Model")

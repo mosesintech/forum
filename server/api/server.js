@@ -14,6 +14,7 @@ const threadsRouter = require('./threads/threadsRouter');
 const postsRouter = require('./posts/postsRouter');
 const messagesRouter = require('./messages/messagesRouter');
 const reputationRouter = require('./reputation/reputationRouter');
+const authRouter = require('./authentication/authRouter');
 
 // Routes
 server.use('/api/users', usersRouter);
@@ -23,5 +24,6 @@ server.use('/api/threads', threadsRouter);
 server.use('/api/posts', postsRouter);
 server.use('/api/messages', messagesRouter);
 server.use('/api/reputation', reputationRouter);
+server.use('/api/auth', authRouter);
 
 module.exports = server;

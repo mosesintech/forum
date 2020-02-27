@@ -23,7 +23,7 @@ router.post('/', validateUser, (req, res) => {
 
 // To retrieve a list of all users & filter through them using sortby, sortdir, and limit.
 router.get('/', (req, res) => {
-    Users.find()
+    Users.find(req.query)
         .then(users => {
             res.status(200).json(users);
         })
@@ -35,6 +35,18 @@ router.get('/', (req, res) => {
 // To retrieve a single user by the User ID.
 router.get('/:id', validateUserId, (req, res) => {
     res.status(200).json(req.user);
+});
+
+// To retrieve a single user by User info.
+router.get('/user', (req, res) => {
+    // const { username, email } = req.query;
+    Users.findBy(req.query)
+        .then(user => {
+            res.status(200).json(user);
+        })
+        .catch(error => {
+            res.status(500).json({message: `Error retrieving single user: ${error}`});
+        })
 });
 
 // To retrieve all threads posted by this user using User ID.
