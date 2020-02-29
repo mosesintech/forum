@@ -1,6 +1,6 @@
 const express = require('express');
-const cors = require('cors');
 const helmet = require('helmet');
+const cors = require('cors');
 const session = require('express-session');
 const config = require('../config/sessionConfig.js');
 const server = express();

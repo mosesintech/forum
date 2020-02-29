@@ -22,9 +22,6 @@ router.post('/login', (req, res) => {
         .then(user => {
             if(user){
                 req.session.user = user;
-                req.session.is_admin = user.is_admin;
-                req.session.is_mod = user.is_mod;
-                req.session.is_banned = user.is_banned;
                 res.status(200).json({message: `User login successful.`});
             } else {
                 res.status(401).json({message: `Invalid user credentials.`});
