@@ -2,7 +2,8 @@ const express = require('express');
 const Reputation = require('./reputationModel.js');
 
 module.exports = {
-    validateReputationId
+    validateReputationId,
+    validateReputation
 }
 
 // Validate Reputation ID - checks if ID is in the database or not.
@@ -24,3 +25,14 @@ function validateReputationId(req, res, next) {
 }
 
 // Validate Reputation - checks if req contains all required values for post/put.
+
+function validateReputation(req, res, next) {
+    const { from_id, to_id, is_positive, reason } = req.body;
+    if(!req.body){
+        res.status(400).json({message: `Missing reputation information.`});
+    } else if(!from_id || !to_id || !is_positive || !reason){
+        res.status(400).json({message: `Please include reputation information: From User ID, To User, Value, and Reason.`});
+    } else {
+        next();
+    }
+}

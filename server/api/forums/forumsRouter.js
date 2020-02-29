@@ -1,6 +1,6 @@
 const express = require('express');
 const Forums = require('./forumsModel.js');
-const { validateForumId } = require('./forumsMiddleware.js');
+const { validateForumId, validateForum } = require('./forumsMiddleware.js');
 const router = express.Router();
 
 
@@ -10,8 +10,14 @@ const router = express.Router();
 // Create - POST
 
 // To create a new forum.
-router.post('/', (req, res) => {
-
+router.post('/', validateForum, (req, res) => {
+    Forums.insert(req.body)
+        .then(forum => {
+            res.status(201).json(forum);
+        })
+        .catch(error => {
+            res.status(500).json({message: `Error adding new forum: ${error}`});
+        })
 });
 
 // Retrieve - GET
@@ -33,27 +39,48 @@ router.get('/:id', validateForumId, (req, res) => {
 });
 
 // To retrieve all threads posted in this forum using Forum ID.
-router.get('/:id/threads', (req, res) => {
-
-});
-
-// To retrieve all posts posted in this forum using Forum ID.
-router.get('/:id/posts', (req, res) => {
-
+router.get('/:id/threads', validateForumId, (req, res) => {
+    const { id } = req.params;
+    Forums.findForumThreads(id)
+        .then(threads => {
+            if(threads.length){
+                res.status(200).json(threads);
+            } else {
+                res.status(404).json({message: `This forum contains no threads.`});
+            }
+        })
+        .catch(error => {
+            res.status(500).json({message: `Error retrieving forum threads: ${error}`});
+        })
 });
 
 // Update - PUT
 
 // To update a single forum
-router.put('/:id', (req, res) => {
-
+router.put('/:id', validateForum, validateForumId, (req, res) => {
+    const changes = req.body;
+    const { id } = req.params;
+    Forums.update(id, changes)
+        .then(updated => {
+            res.status(200).json(updated);
+        })
+        .catch(error => {
+            res.status(500).json({message: `Error updating forum: ${error}`});
+        })
 });
 
 // Delete - DELETE
 
 // To delete a single forum
-router.delete('/:id', (req, res) => {
-
+router.delete('/:id', validateForumId, (req, res) => {
+    const { id } = req.params;
+    Forums.remove(id)
+        .then(removed => {
+            res.status(200).json(removed);
+        })
+        .catch(error => {
+            res.status(500).json({message: `Error deleting forum from database: ${error}`});
+        })
 });
 
 module.exports = router;

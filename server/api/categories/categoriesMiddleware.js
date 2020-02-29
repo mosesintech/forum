@@ -2,7 +2,8 @@ const express = require('express');
 const Categories = require('./categoriesModel.js');
 
 module.exports = {
-    validateCategoryId
+    validateCategoryId,
+    validateCategory
 }
 
 // Validate Category ID - checks if ID is in the database or not.
@@ -24,3 +25,14 @@ function validateCategoryId(req, res, next) {
 }
 
 // Validate Category - checks if req contains all required values for post/put.
+
+function validateCategory(req, res, next) {
+    const { is_private, is_closed, name, description } = req.body;
+    if(!req.body){
+        res.status(400).json({message: `Missing Category Information.`});
+    } else if(!is_private || !is_closed || !name || !description){
+        res.status(400).json({message: `Please include category information: Name, Description, Private Status, and Closed Status.`});
+    } else {
+        next();
+    }
+}

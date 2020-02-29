@@ -2,7 +2,8 @@ const express = require('express');
 const Threads = require('./threadsModel.js');
 
 module.exports = {
-    validateThreadId
+    validateThreadId,
+    validateThread
 }
 
 // Validate Thread ID - checks if ID is in the database or not.
@@ -24,3 +25,14 @@ function validateThreadId(req, res, next) {
 }
 
 // Validate Thread - checks if req contains all required values for post/put.
+
+function validateThread(req, res, next) {
+    const { is_pinned, is_closed, name, forum_id, user_id, body } = req.body;
+    if(!req.body){
+        res.status(400).json({message: `Missing thread information`});
+    } else if(!is_pinned || !is_closed || !name || !forum_id || !user_id || !body) {
+        res.status(400).json({message: `Please include thread information: Name, Body, Forum ID, User ID, Important Status, and Closed Status.`})
+    } else {
+        next();
+    }
+}

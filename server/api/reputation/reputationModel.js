@@ -15,10 +15,8 @@ function findById(id) {
 
 function insert(newRep) {
     return db('reputation')
-        .insert(newRep)
-            .then(id => {
-                return findById(id[0]);
-            });
+        .returning(['id', 'from_id', 'to_id', 'is_positive', 'reason'])
+        .insert(newRep);
 }
 
 function remove(id) {

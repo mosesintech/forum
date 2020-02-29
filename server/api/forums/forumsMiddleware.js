@@ -2,7 +2,8 @@ const express = require('express');
 const Forums = require('./forumsModel.js');
 
 module.exports = {
-    validateForumId
+    validateForumId,
+    validateForum
 }
 
 // Validate Forum ID - checks if ID is in the database or not.
@@ -24,3 +25,14 @@ function validateForumId(req, res, next) {
 }
 
 // Validate Forum - checks if req contains all required values for post/put.
+
+function validateForum(req, res, next) {
+    const { category_id, is_private, is_closed, name, description } = req.body;
+    if(!req.body){
+        res.status(400).json({message: `Missing Forum Information.`});
+    } else if(!category_id || !is_private || !is_closed || !name || !description){
+        res.status(400).json({message: `Please include forum information: Category ID, Name, Description, Privacy Status, and Closed Status.`});
+    } else {
+        next();
+    }
+}

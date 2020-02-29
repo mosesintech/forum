@@ -1,6 +1,6 @@
 const express = require('express');
 const Messages = require('./messagesModel.js');
-const { validateMessageId } = require('./messagesMiddleware.js');
+const { validateMessageId, validateMessage } = require('./messagesMiddleware.js');
 const router = express.Router();
 
 // CRUD operations:
@@ -9,8 +9,14 @@ const router = express.Router();
 // Create - POST
 
 // To create a new message.
-router.post('/', (req, res) => {
-
+router.post('/', validateMessage, (req, res) => {
+    Messages.insert(req.body)
+        .then(message => {
+            res.status(201).json(message);
+        })
+        .catch(error => {
+            res.status(500).json({message: `Error adding new message: ${error}`});
+        })
 });
 
 // Retrieve - GET
@@ -34,8 +40,15 @@ router.get('/:id', validateMessageId, (req, res) => {
 // Delete - DELETE
 
 // To delete a single message
-router.delete('/:id', (req, res) => {
-
+router.delete('/:id', validateMessageId, (req, res) => {
+    const { id } = req.params;
+    Messages.remove(id)
+        .then(removed => {
+            res.status(200).json(removed);
+        })
+        .catch(error => {
+            res.status(500).json({message: `Error deleting message from database: ${error}`});
+        })
 });
 
 module.exports = router;

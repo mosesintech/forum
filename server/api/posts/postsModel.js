@@ -21,10 +21,8 @@ function findById(id) {
 
 function insert(newPost) {
     return db('posts')
-        .insert(newPost)
-            .then(id => {
-                return findById(id[0]);
-            });
+        .returning(['id', 'body', 'user_id', 'thread_id'])
+        .insert(newPost);
 }
 
 function update(id, changes) {

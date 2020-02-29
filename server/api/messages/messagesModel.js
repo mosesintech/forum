@@ -20,10 +20,8 @@ function findById(id) {
 
 function insert(newMessage) {
     return db('messages')
-        .insert(newMessage)
-            .then(id => {
-                return findById(id[0]);
-            });
+        .returning(['id', 'from_id', 'to_id', 'title', 'body'])
+        .insert(newMessage);
 }
 
 function remove(id) {

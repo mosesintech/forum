@@ -4,17 +4,18 @@
 
 ### Users
 
-| Method | URL                       | Description                                                                        |
-| ------ | ------------------------- | ---------------------------------------------------------------------------------- |
-| POST   | /api/users                | Creates a user.                                                                    |
-| GET    | /api/users                | Returns an array of all the users objects contained in the database.               |
-| GET    | /api/users/:id            | Returns the user object with the specified `id`.                                   |
-| GET    | /api/users/:id/threads    | Returns an array of all the threads in the user object with the specified `id`.    |
-| GET    | /api/users/:id/posts      | Returns an array of all the posts in the user object with the specified `id`.      |
-| GET    | /api/users/:id/messages   | Returns an array of all the messages in the user object with the specified `id`.   |
-| GET    | /api/users/:id/reputation | Returns an array of all the reputation in the user object with the specified `id`. |
-| PUT    | /api/users/:id            | Updates the user with the specified `id`. Returns the modified document.           |
-| DELETE | /api/users/:id            | Removes the user with the specified `id` and returns the deleted user.             |
+| Method | URL                         | Description                                                                                    |
+| ------ | ----------------------------| ---------------------------------------------------------------------------------------------- |
+| POST   | /api/users                  | Creates a user.                                                                                |
+| GET    | /api/users                  | Returns an array of all the users objects contained in the database.                           |
+| GET    | /api/users/:id              | Returns the user object with the specified `id`.                                               |
+| GET    | /api/users/:id/threads      | Returns an array of all the threads in the user object with the specified `id`.                |
+| GET    | /api/users/:id/posts        | Returns an array of all the posts in the user object with the specified `id`.                  |
+| GET    | /api/users/:id/messages/to  | Returns an array of all the messages in the user object with the specified `id` to the user.   |
+| GET    | /api/users/:id/messages/from| Returns an array of all the messages in the user object with the specified `id` from the user. |
+| GET    | /api/users/:id/reputation   | Returns an array of all the reputation in the user object with the specified `id`.             |
+| PUT    | /api/users/:id              | Updates the user with the specified `id`. Returns the modified document.                       |
+| DELETE | /api/users/:id              | Removes the user with the specified `id` and returns the deleted user.                         |
 
 DELETE is exclusively an Administrator action.
 
@@ -39,7 +40,6 @@ POST, PUT, and DELETE are exclusively Administrator actions.
 | GET    | /api/forums             | Returns an array of all the forums objects contained in the database.             |
 | GET    | /api/forums/:id         | Returns the forum object with the specified `id`.                                 |
 | GET    | /api/forums/:id/threads | Returns an array of all the threads in the forum object with the specified `id`.  |
-| GET    | /api/forums/:id/posts   | Returns an array of all the posts in the forum object with the specified `id`.    |
 | PUT    | /api/forums/:id         | Updates the forum with the specified `id`. Returns the modified document.         |
 | DELETE | /api/forums/:id         | Removes the forum with the specified `id` and returns the deleted forum.          |
 

@@ -2,7 +2,8 @@ const express = require('express');
 const Posts = require('./postsModel.js');
 
 module.exports = {
-    validatePostId
+    validatePostId,
+    validatePost
 }
 
 // Validate Post ID - checks if ID is in the database or not.
@@ -24,3 +25,14 @@ function validatePostId(req, res, next) {
 }
 
 // Validate Post - checks if req contains all required values for post/put.
+
+function validatePost(req, res, next){
+    const { body, user_id, thread_id } = req.body;
+    if(!req.body){
+        res.status(400).json({message: `Missing Post Information.`});
+    } else if(!body || !user_id || !thread_id){
+        res.status(400).json({message: `Please include post information: Body, User ID, and Thread ID.`});
+    } else {
+        next();
+    }
+}
