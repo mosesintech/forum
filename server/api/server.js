@@ -1,10 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const session = require('express-session');
+const config = require('../config/sessionConfig.js');
 const server = express();
 
 // Middleware
 server.use(express.json());
 server.use(cors());
+server.use(helmet());
+server.use(session(config));
 
 // Routers
 const usersRouter = require('./users/usersRouter');

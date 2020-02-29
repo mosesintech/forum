@@ -1,15 +1,13 @@
 const express = require('express');
 const Threads = require('./threadsModel.js');
 const { validateThreadId, validateThread } = require('./threadsMiddleware.js');
+const { userOnly, adminOnly, modOnly, banned } = require('../authentication/restrictedMiddleware.js');
 const router = express.Router();
-
-// CRUD operations:
-
 
 // Create - POST
 
 // To create a new thread.
-router.post('/', validateThread, (req, res) => {
+router.post('/', banned, userOnly, validateThread, (req, res) => {
     Threads.insert(req.body)
         .then(thread => {
             res.status(201).json(thread);
@@ -22,7 +20,7 @@ router.post('/', validateThread, (req, res) => {
 // Retrieve - GET
 
 // To retrieve a list of all threads & filter through them using sortby, sortdir, date, and limit.
-router.get('/', (req, res) => {
+router.get('/', banned, (req, res) => {
     Threads.find()
         .then(threads => {
             res.status(200).json(threads);
@@ -33,12 +31,12 @@ router.get('/', (req, res) => {
 });
 
 // To retrieve a single thread by the Thread ID.
-router.get('/:id', validateThreadId, (req, res) => {
+router.get('/:id', banned, validateThreadId, (req, res) => {
     res.status(200).json(req.thread);
 });
 
 // To retrieve all posts posted in this thread using Thread ID.
-router.get('/:id/posts', (req, res) => {
+router.get('/:id/posts', banned, (req, res) => {
     const { id } = req.params;
     Threads.findThreadPosts(id)
         .then(posts => {
@@ -56,7 +54,7 @@ router.get('/:id/posts', (req, res) => {
 // Update - PUT
 
 // To update a single thread
-router.put('/:id', validateThread, validateThreadId, (req, res) => {
+router.put('/:id', banned, userOnly, validateThread, validateThreadId, (req, res) => {
     const changes = req.body;
     const { id } = req.params;
     Threads.update(id, changes)
@@ -71,7 +69,7 @@ router.put('/:id', validateThread, validateThreadId, (req, res) => {
 // Delete - DELETE
 
 // To delete a single thread
-router.delete('/:id', validateThreadId, (req, res) => {
+router.delete('/:id', banned, modOnly, validateThreadId, (req, res) => {
     const { id } = req.params;
     Threads.remove(id)
         .then(removed => {

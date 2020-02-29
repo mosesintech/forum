@@ -1,16 +1,13 @@
 const express = require('express');
 const Forums = require('./forumsModel.js');
 const { validateForumId, validateForum } = require('./forumsMiddleware.js');
+const { userOnly, adminOnly, banned } = require('../authentication/restrictedMiddleware.js');
 const router = express.Router();
-
-
-// CRUD operations:
-
 
 // Create - POST
 
 // To create a new forum.
-router.post('/', validateForum, (req, res) => {
+router.post('/', banned, adminOnly, validateForum, (req, res) => {
     Forums.insert(req.body)
         .then(forum => {
             res.status(201).json(forum);
@@ -23,7 +20,7 @@ router.post('/', validateForum, (req, res) => {
 // Retrieve - GET
 
 // To retrieve a list of all forums & filter through them using sortby, sortdir, and limit.
-router.get('/', (req, res) => {
+router.get('/', banned, (req, res) => {
     Forums.find()
         .then(forums => {
             res.status(200).json(forums);
@@ -34,12 +31,12 @@ router.get('/', (req, res) => {
 });
 
 // To retrieve a single forum by the Forum ID.
-router.get('/:id', validateForumId, (req, res) => {
+router.get('/:id', banned, validateForumId, (req, res) => {
     res.status(200).json(req.forum);
 });
 
 // To retrieve all threads posted in this forum using Forum ID.
-router.get('/:id/threads', validateForumId, (req, res) => {
+router.get('/:id/threads', banned, validateForumId, (req, res) => {
     const { id } = req.params;
     Forums.findForumThreads(id)
         .then(threads => {
@@ -57,7 +54,7 @@ router.get('/:id/threads', validateForumId, (req, res) => {
 // Update - PUT
 
 // To update a single forum
-router.put('/:id', validateForum, validateForumId, (req, res) => {
+router.put('/:id', banned, adminOnly, validateForum, validateForumId, (req, res) => {
     const changes = req.body;
     const { id } = req.params;
     Forums.update(id, changes)
@@ -72,7 +69,7 @@ router.put('/:id', validateForum, validateForumId, (req, res) => {
 // Delete - DELETE
 
 // To delete a single forum
-router.delete('/:id', validateForumId, (req, res) => {
+router.delete('/:id', banned, adminOnly, validateForumId, (req, res) => {
     const { id } = req.params;
     Forums.remove(id)
         .then(removed => {

@@ -1,15 +1,13 @@
 const express = require('express');
 const Messages = require('./messagesModel.js');
 const { validateMessageId, validateMessage } = require('./messagesMiddleware.js');
+const { userOnly, adminOnly, modOnly, banned } = require('../authentication/restrictedMiddleware.js');
 const router = express.Router();
-
-// CRUD operations:
-
 
 // Create - POST
 
 // To create a new message.
-router.post('/', validateMessage, (req, res) => {
+router.post('/', banned, userOnly, validateMessage, (req, res) => {
     Messages.insert(req.body)
         .then(message => {
             res.status(201).json(message);
@@ -22,7 +20,7 @@ router.post('/', validateMessage, (req, res) => {
 // Retrieve - GET
 
 // To retrieve a list of all messages.
-router.get('/', (req, res) => {
+router.get('/', adminOnly, (req, res) => {
     Messages.find()
         .then(messages => {
             res.status(200).json(messages);
@@ -33,14 +31,14 @@ router.get('/', (req, res) => {
 });
 
 // To retrieve a single message by the Message ID.
-router.get('/:id', validateMessageId, (req, res) => {
+router.get('/:id', banned, userOnly, validateMessageId, (req, res) => {
     res.status(200).json(req.message);
 });
 
 // Delete - DELETE
 
 // To delete a single message
-router.delete('/:id', validateMessageId, (req, res) => {
+router.delete('/:id', banned, adminOnly, validateMessageId, (req, res) => {
     const { id } = req.params;
     Messages.remove(id)
         .then(removed => {

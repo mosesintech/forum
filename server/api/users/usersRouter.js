@@ -1,10 +1,8 @@
 const express = require('express');
 const Users = require('./usersModel.js');
 const { validateUserId, validateUser } = require('./usersMiddleware.js');
+const { userOnly, adminOnly, modOnly, banned } = require('../authentication/restrictedMiddleware.js');
 const router = express.Router();
-
-// CRUD operations:
-
 
 // Create - POST
 
@@ -22,7 +20,7 @@ router.post('/', validateUser, (req, res) => {
 // Retrieve - GET
 
 // To retrieve a list of all users & filter through them using sortby, sortdir, and limit.
-router.get('/', (req, res) => {
+router.get('/', banned, (req, res) => {
     Users.find(req.query)
         .then(users => {
             res.status(200).json(users);
@@ -33,12 +31,12 @@ router.get('/', (req, res) => {
 });
 
 // To retrieve a single user by the User ID.
-router.get('/:id', validateUserId, (req, res) => {
+router.get('/:id', banned, validateUserId, (req, res) => {
     res.status(200).json(req.user);
 });
 
 // To retrieve all threads posted by this user using User ID.
-router.get('/:id/threads', validateUserId, (req, res) => {
+router.get('/:id/threads', banned, validateUserId, (req, res) => {
     const { id } = req.params;
     Users.findUserThreads(id)
         .then(threads => {
@@ -54,7 +52,7 @@ router.get('/:id/threads', validateUserId, (req, res) => {
 });
 
 // To retrieve all posts by this user using User ID.
-router.get('/:id/posts', validateUserId, (req, res) => {
+router.get('/:id/posts', banned, validateUserId, (req, res) => {
     const { id } = req.params;
     Users.findUserPosts(id)
         .then(posts => {
@@ -70,7 +68,7 @@ router.get('/:id/posts', validateUserId, (req, res) => {
 });
 
 // To retrieve the messages of a single user using User ID.
-router.get('/:id/messages/to', validateUserId, (req, res) => {
+router.get('/:id/messages/to', banned, userOnly, validateUserId, (req, res) => {
     const { id } = req.params;
     Users.findUserReceivedMessages(id)
         .then(messages => {
@@ -85,7 +83,7 @@ router.get('/:id/messages/to', validateUserId, (req, res) => {
         })
 });
 
-router.get('/:id/messages/from', validateUserId, (req, res) => {
+router.get('/:id/messages/from', banned, userOnly, validateUserId, (req, res) => {
     const { id } = req.params;
     Users.findUserSentMessages(id)
         .then(messages => {
@@ -101,7 +99,7 @@ router.get('/:id/messages/from', validateUserId, (req, res) => {
 });
 
 // To retrieve the reputation comments and points of a single user using User ID.
-router.get('/:id/reputation', validateUserId, (req, res) => {
+router.get('/:id/reputation', banned, validateUserId, (req, res) => {
     const { id } = req.params;
     Users.findUserReputation(id)
         .then(rep => {
@@ -119,7 +117,7 @@ router.get('/:id/reputation', validateUserId, (req, res) => {
 // Update - PUT
 
 // To update a single user
-router.put('/:id', validateUser, validateUserId, (req, res) => {
+router.put('/:id', banned, userOnly, validateUser, validateUserId, (req, res) => {
     const changes = req.body;
     const { id } = req.params;
     Users.update(id, changes)
@@ -131,15 +129,10 @@ router.put('/:id', validateUser, validateUserId, (req, res) => {
         })
 });
 
-// Can I update multiple users at once?
-// router.put('/:id', (req, res) => {
-
-// });
-
 // Delete - DELETE
 
 // To delete a single user
-router.delete('/:id', validateUserId, (req, res) => {
+router.delete('/:id', banned, adminOnly, validateUserId, (req, res) => {
     const { id } = req.params;
     Users.remove(id)
         .then(removed => {
@@ -149,10 +142,5 @@ router.delete('/:id', validateUserId, (req, res) => {
             res.status(500).json({message: `Error removing user from database: ${error}`});
         })
 });
-
-// Can I delete multiple users at once?
-// router.delete('/:id', (req, res) => {
-
-// });
 
 module.exports = router;

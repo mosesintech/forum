@@ -1,15 +1,13 @@
 const express = require('express');
 const Posts = require('./postsModel.js');
 const { validatePostId, validatePost } = require('./postsMiddleware.js');
+const { userOnly, adminOnly, modOnly, banned } = require('../authentication/restrictedMiddleware.js');
 const router = express.Router();
-
-// CRUD operations:
-
 
 // Create - POST
 
 // To create a new post.
-router.post('/', validatePost, (req, res) => {
+router.post('/', banned, userOnly, validatePost, (req, res) => {
     Posts.insert(req.body)
         .then(post => {
             res.status(201).json(post);
@@ -22,7 +20,7 @@ router.post('/', validatePost, (req, res) => {
 // Retrieve - GET
 
 // To retrieve a list of all posts & filter through them using sortby, sortdir, date, and limit.
-router.get('/', (req, res) => {
+router.get('/', banned, (req, res) => {
     Posts.find()
         .then(posts => {
             res.status(200).json(posts);
@@ -33,14 +31,14 @@ router.get('/', (req, res) => {
 });
 
 // To retrieve a single post by the Thread ID.
-router.get('/:id', validatePostId, (req, res) => {
+router.get('/:id', banned, validatePostId, (req, res) => {
     res.status(200).json(req.post);
 });
 
 // Update - PUT
 
 // To update a single post
-router.put('/:id', validatePost, validatePostId, (req, res) => {
+router.put('/:id', banned, userOnly, validatePost, validatePostId, (req, res) => {
     const changes = req.body;
     const { id } = req.params;
     Posts.update(id, changes)
@@ -55,7 +53,7 @@ router.put('/:id', validatePost, validatePostId, (req, res) => {
 // Delete - DELETE
 
 // To delete a single post
-router.delete('/:id', validatePostId, (req, res) => {
+router.delete('/:id', banned, modOnly, validatePostId, (req, res) => {
     const { id } = req.params;
     Posts.remove(id)
         .then(removed => {

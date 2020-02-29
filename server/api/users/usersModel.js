@@ -34,7 +34,7 @@ function findById(id) {
 
 function findBy(query){
     return db('users')
-        .select('id')
+        .select('id', 'username', 'is_admin', 'is_mod', 'is_banned')
         .where(query)
         .first();
 }

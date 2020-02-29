@@ -1,7 +1,15 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-function restricted(req, res, next){
+module.exports = {
+    userOnly,
+    adminOnly,
+    modOnly,
+    banned
+}
+
+// restricted until login.
+function userOnly(req, res, next){
     if(req.session && req.session.user){
         next()
     } else {
@@ -9,4 +17,29 @@ function restricted(req, res, next){
     }
 }
 
-module.exports = restricted;
+// restricted unless admin.
+function adminOnly(req, res, next){
+    if(req.session && req.session.user && req.session.is_admin){
+        next()
+    } else {
+        res.status(401).json({message: `Administrator access only.`});
+    }
+}
+
+// restricted unless mod.
+function modOnly(req, res, next){
+    if(req.session && req.session.user && (req.session.is_mod || req.session.is_admin)){
+        next()
+    } else {
+        res.status(401).json({message: `Moderator access only.`});
+    }
+}
+
+// restricted because banned.
+function banned(req, res, next){
+    if(req.session && req.session.user && req.session.is_banned){
+        res.status(401).json({message: `User is banned. No access.`});
+    } else {
+        next();
+    }
+}

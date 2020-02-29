@@ -1,15 +1,13 @@
 const express = require('express');
 const Categories = require('./categoriesModel.js');
 const { validateCategoryId, validateCategory } = require('./categoriesMiddleware.js');
+const { userOnly, adminOnly, banned } = require('../authentication/restrictedMiddleware.js');
 const router = express.Router();
-
-// CRUD operations:
-
 
 // Create - POST
 
 // To create a new category.
-router.post('/', (req, res) => {
+router.post('/', banned, adminOnly, (req, res) => {
     Categories.insert(req.body)
         .then(cat => {
             res.status(201).json(cat);
@@ -22,7 +20,7 @@ router.post('/', (req, res) => {
 // Retrieve - GET
 
 // To retrieve a list of all categories.
-router.get('/', (req, res) => {
+router.get('/', banned, (req, res) => {
     Categories.find()
         .then(cats => {
             res.status(200).json(cats);
@@ -33,12 +31,12 @@ router.get('/', (req, res) => {
 });
 
 // To retrieve a single category by the Category ID.
-router.get('/:id', validateCategoryId, (req, res) => {
+router.get('/:id', banned, validateCategoryId, (req, res) => {
     res.status(200).json(req.cat);
 });
 
 // To retrieve all forums in this category using Category ID.
-router.get('/:id/forums', validateCategoryId, (req, res) => {
+router.get('/:id/forums', banned, validateCategoryId, (req, res) => {
     const { id } = req.params;
     Categories.findCategoryForums(id)
         .then(forums => {
@@ -56,7 +54,7 @@ router.get('/:id/forums', validateCategoryId, (req, res) => {
 // Update - PUT
 
 // To update a single category
-router.put('/:id', validateCategory, validateCategoryId, (req, res) => {
+router.put('/:id', banned, adminOnly, validateCategory, validateCategoryId, (req, res) => {
     const changes = req.body;
     const { id } = req.params;
     Categories.update(id, changes)
@@ -71,7 +69,7 @@ router.put('/:id', validateCategory, validateCategoryId, (req, res) => {
 // Delete - DELETE
 
 // To delete a single category
-router.delete('/:id', validateCategoryId, (req, res) => {
+router.delete('/:id', banned, adminOnly, validateCategoryId, (req, res) => {
     const { id } = req.params;
     Categories.remove(id)
         .then(removed => {
