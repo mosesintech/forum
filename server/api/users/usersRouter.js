@@ -4,19 +4,6 @@ const { validateUserId, validateUser } = require('./usersMiddleware.js');
 const { userOnly, adminOnly, modOnly, banned } = require('../authentication/restrictedMiddleware.js');
 const router = express.Router();
 
-// Create - POST
-
-// To create a new user.
-router.post('/', validateUser, (req, res) => {
-    Users.insert(req.body)
-        .then(newUser => {
-            res.status(201).json(newUser);
-        })
-        .catch(error => {
-            res.status(500).json({message: `Error adding new user: ${error}`});
-        })
-});
-
 // Retrieve - GET
 
 // To retrieve a list of all users & filter through them using sortby, sortdir, and limit.

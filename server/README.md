@@ -6,7 +6,6 @@
 
 | Method | URL                         | Description                                                                                    |
 | ------ | ----------------------------| ---------------------------------------------------------------------------------------------- |
-| POST   | /api/users                  | Creates a user.                                                                                |
 | GET    | /api/users                  | Returns an array of all the users objects contained in the database.                           |
 | GET    | /api/users/:id              | Returns the user object with the specified `id`.                                               |
 | GET    | /api/users/:id/threads      | Returns an array of all the threads in the user object with the specified `id`.                |
