@@ -16,6 +16,11 @@ table {
       font-size: 1.4rem;
       border: 1px solid #eee;
       background-color: $thd;
+      .cat-description {
+        font-size: .75rem;
+        display: block;
+        padding-top: 1%;
+      }
     }
     tbody {
       border-collapse: collapse;

@@ -1,15 +1,22 @@
 import { createStore, applyMiddleware } from 'redux';
- import thunk from 'redux-thunk';
- import rootReducer from '../reducers';
+import thunk from 'redux-thunk';
+import rootReducer from '../reducers';
 
- const initialState = {
-     smurfs: [],
-     error: '',
-     isFetching: false
- };
+const initialState = {
+    categories: [],
+    forums: [],
+    threads: [],
+    posts: [],
+    users: [],
+    toMessages: [],
+    fromMessages: [],
+    reputation: [],
+    error: '',
+    isFetching: false
+};
 
- const middleware = [thunk];
+const middleware = [thunk];
 
- const store = createStore(rootReducer, initialState, applyMiddleware(...middleware)); 
+const store = createStore(rootReducer, initialState, applyMiddleware(...middleware)); 
 
- export default store; 
+export default store;

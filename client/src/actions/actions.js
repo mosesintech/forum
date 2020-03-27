@@ -1,19 +1,37 @@
 import axios from 'axios';
-const API = "http://localhost:3333";
+const API = "http://localhost:9009/api";
 
-export const FETCH_SMURF_START = "FETCH_DATA_START";
-export const FETCH_SMURF_SUCCESS = "FETCH_DATA_SUCCESS";
-export const FETCH_SMURF_FAIL = "FETCH_DATA_FAIL";
-export const getSmurf = () => dispatch => {
-    dispatch({ type: FETCH_SMURF_START });
+// Begin Category Actions
+// Retrieve all categories
+export const FETCH_CATEGORIES_START = "FETCH_CATEGORIES_START";
+export const FETCH_CATEGORIES_SUCCESS = "FETCH_CATEGORIES_SUCCESS";
+export const FETCH_CATEGORIES_FAIL = "FETCH_CATEGORIES_FAIL";
+export const getCategories = () => dispatch => {
+    dispatch({ type: FETCH_CATEGORIES_START });
     return axios
-        .get(`${API}`)
+        .get(`${API}/categories`)
         .then(res => {
-        console.log("I love smurfs", res);
-        dispatch({ type: FETCH_SMURF_SUCCESS, payload: res.data });
+        dispatch({ type: FETCH_CATEGORIES_SUCCESS, payload: res.data });
         })
         .catch(err => {
-        console.log("Kill them all!", err);
-        dispatch({ type: FETCH_SMURF_FAIL, payload: err });
+        console.log(`Did not receive categories: ${err}`);
+        dispatch({ type: FETCH_CATEGORIES_FAIL, payload: err });
         });
-}; 
+};
+
+// Retrieve all forums in one category
+export const FETCH_CATFORUMS_START = "FETCH_CATFORUMS_START";
+export const FETCH_CATFORUMS_SUCCESS = "FETCH_CATFORUMS_SUCCESS";
+export const FETCH_CATFORUMS_FAIL = "FETCH_CATFORUMS_FAIL";
+export const getCatForums = (id) => dispatch => {
+    dispatch({ type: FETCH_CATFORUMS_START });
+    return axios
+        .get(`${API}/forums/${id}`)
+        .then(res => {
+        dispatch({ type: FETCH_CATFORUMS_SUCCESS, payload: res.data });
+        })
+        .catch(err => {
+        console.log(`Did not receive forums in this category: ${err}`);
+        dispatch({ type: FETCH_CATFORUMS_FAIL, payload: err });
+        });
+};

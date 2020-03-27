@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../../data/dbConfig.js');
+const { findById:forums } = require('../forums/forumsModel.js');
 
 module.exports = {
     find,
@@ -11,7 +12,10 @@ module.exports = {
 }
 
 function find() {
-    return db('categories');
+    return db('categories')
+        .join('forums', 'categories.id', 'forums.category_id')
+        .select(['categories.*', db.raw('ARRAY_AGG(forums.id) as forums')])
+        .groupBy('categories.id', 'categories.name');
 }
 
 function findById(id) {
